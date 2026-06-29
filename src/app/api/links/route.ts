@@ -32,3 +32,15 @@ export async function POST(req: Request) {
     shortCode: payload.shortCode,
   });
 }
+
+export async function GET() {
+  const result = await prisma.url.findMany({
+    orderBy: { createdAt: "desc" },
+    include: { _count: { select: { Click: true } } },
+  });
+
+  return NextResponse.json({
+    message: "Url fetched successfully",
+    data: result,
+  });
+}
